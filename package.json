@@ -8,7 +8,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "hardhat": "^2.22.17",
@@ -19,5 +19,8 @@
     "@openzeppelin/contracts": "^5.1.0",
     "dotenv": "^16.4.7",
     "ethers": "^6.13.4"
+  },
+  "directories": {
+    "test": "test"
   }
 }
