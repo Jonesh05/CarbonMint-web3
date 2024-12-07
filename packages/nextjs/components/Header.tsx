@@ -84,7 +84,7 @@ export const Header: React.FC = () => {
         <div className="lg:hidden dropdown" ref={burgerMenuRef}>
           <label
             tabIndex={0}
-            className={`ml-1 ${isDrawerOpen ? "hover:bg-green-50" : "hover:bg-transparent"}`}
+            className={`ml-1 btn btn-ghost ${isDrawerOpen ? "hover:bg-green-50" : "hover:bg-transparent"}`}
             onClick={() => setIsDrawerOpen(prev => !prev)}
           >
             <Bars3Icon className="h-6 w-6 semibold" />
