@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bars3Icon, BeakerIcon, ShoppingCartIcon, TruckIcon } from "@heroicons/react/24/outline";
 
+
 type HeaderMenuLink = {
   label: string;
   href: string;
@@ -26,12 +27,12 @@ const menuLinks: HeaderMenuLink[] = [
   {
     label: "Marketplace",
     href: "/marketplace",
-    icon: <ShoppingCartIcon className="h-7 w-5" />,
+    icon: <ShoppingCartIcon className="h-7 w-5 font-semibold" />,
   },
   {
     label: "Logistics",
     href: "/logistics",
-    icon: <TruckIcon className="h-7 w-5" />,
+    icon: <TruckIcon className="h-7 w-5 font-semibold" />,
   },
 ];
 
@@ -46,7 +47,7 @@ const HeaderMenuLinks: React.FC = () => {
             href={href}
             passHref
             className={`${
-              pathname === href ? "bg-green-100 text-green-800 semibold justify-center flex" : ""
+              pathname === href ? "bg-green-100 text-green-800 semibold justify-items-start flex" : ""
             } hover:bg-green-50 hover:text-green-700 focus:bg-green-100 active:text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
           >
             {icon}
@@ -79,7 +80,7 @@ export const Header: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex relative w-auto sticky lg:static lg:static top-0 navbar bg-white min-h-0 flex-shrink-0 justify-center z-20 shadow-md shadow-green-100 px-0 sm:px-2">
+    <div className="flex  w-auto sticky lg:static lg:static top-0 navbar bg-white min-h-0 flex-shrink-0 justify-center z-20 shadow-md shadow-green-100 px-0 sm:px-2">
       <div className="navbar-start justify-center flex lg:w-1/2">
         <div className="lg:hidden dropdown" ref={burgerMenuRef}>
           <label
@@ -100,7 +101,7 @@ export const Header: React.FC = () => {
           )}
         </div>
         <Link href="/" passHref className="hidden lg:flex text-lg font-semibold items-center gap-4 ml-6 mr-8 shrink-0">
-          <div className="flex relative w-40 h-14">
+          <div className="flex justify-items-start w-40 h-14">
             <Image
               alt="CarbonMint logo"
               className="cursor-pointer object-contain w-auto justify-left"
