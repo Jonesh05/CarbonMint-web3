@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState, useEffect } from "react"; // Añadido useEffect
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
-import { ChevronDoubleUpIcon } from "@heroicons/react/24/outline";
-import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
-import { useOutsideClick } from "~~/hooks/scaffold-eth";
+import { Bars3Icon, BeakerIcon, ShoppingCartIcon, TruckIcon } from "@heroicons/react/24/outline";
 
 type HeaderMenuLink = {
   label: string;
@@ -15,101 +13,114 @@ type HeaderMenuLink = {
   icon?: React.ReactNode;
 };
 
-export const menuLinks: HeaderMenuLink[] = [
+const menuLinks: HeaderMenuLink[] = [
   {
     label: "Home",
     href: "/",
   },
   {
-    label: "ZkTree",
-    href: "/ZkTree",
-    icon: <ChevronDoubleUpIcon className="h-4 w-4" />,
+    label: "Provider Dashboard",
+    href: "/provider",
+    icon: <BeakerIcon className="h-7 w-5 font-semibold" />,
   },
   {
-    label: "Debug Contracts",
-    href: "/debug",
-    icon: <BugAntIcon className="h-4 w-4" />,
+    label: "Marketplace",
+    href: "/marketplace",
+    icon: <ShoppingCartIcon className="h-7 w-5" />,
+  },
+  {
+    label: "Logistics",
+    href: "/logistics",
+    icon: <TruckIcon className="h-7 w-5" />,
   },
 ];
 
-export const HeaderMenuLinks = () => {
+const HeaderMenuLinks: React.FC = () => {
   const pathname = usePathname();
 
   return (
     <>
-      {menuLinks.map(({ label, href, icon }) => {
-        const isActive = pathname === href;
-        return (
-          <li key={href}>
-            <Link
-              href={href}
-              passHref
-              className={`${
-                isActive ? "bg-secondary shadow-md" : ""
-              } hover:bg-secondary hover:shadow-md focus:!bg-secondary active:!text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
-            >
-              {icon}
-              <span>{label}</span>
-            </Link>
-          </li>
-        );
-      })}
+      {menuLinks.map(({ label, href, icon }) => (
+        <li key={href}>
+          <Link
+            href={href}
+            passHref
+            className={`${
+              pathname === href ? "bg-green-100 text-green-800 semibold justify-center flex" : ""
+            } hover:bg-green-50 hover:text-green-700 focus:bg-green-100 active:text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
+          >
+            {icon}
+            <span>{label}</span>
+          </Link>
+        </li>
+      ))}
     </>
   );
 };
 
-/**
- * Site header
- */
-export const Header = () => {
+export const Header: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
-  useOutsideClick(
-    burgerMenuRef,
-    useCallback(() => setIsDrawerOpen(false), []),
-  );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (burgerMenuRef.current && !burgerMenuRef.current.contains(event.target as Node)) {
+        setIsDrawerOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchend', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchend', handleClickOutside);
+    };
+  }, []);
 
   return (
-    <div className="sticky lg:static top-0 navbar bg-base-100 min-h-0 flex-shrink-0 justify-between z-20 shadow-md shadow-secondary px-0 sm:px-2">
-      <div className="navbar-start w-auto lg:w-1/2">
+    <div className="flex relative w-auto sticky lg:static lg:static top-0 navbar bg-white min-h-0 flex-shrink-0 justify-center z-20 shadow-md shadow-green-100 px-0 sm:px-2">
+      <div className="navbar-start justify-center flex lg:w-1/2">
         <div className="lg:hidden dropdown" ref={burgerMenuRef}>
           <label
             tabIndex={0}
-            className={`ml-1 btn btn-ghost ${isDrawerOpen ? "hover:bg-secondary" : "hover:bg-transparent"}`}
-            onClick={() => {
-              setIsDrawerOpen(prevIsOpenState => !prevIsOpenState);
-            }}
+            className={`ml-1 ${isDrawerOpen ? "hover:bg-green-50" : "hover:bg-transparent"}`}
+            onClick={() => setIsDrawerOpen(prev => !prev)}
           >
-            <Bars3Icon className="h-1/2" />
+            <Bars3Icon className="h-6 w-6 semibold" />
           </label>
           {isDrawerOpen && (
             <ul
               tabIndex={0}
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
-              onClick={() => {
-                setIsDrawerOpen(false);
-              }}
+              className="menu menu-compact dropdown-content justify-center flex mt-3 p-2 shadow bg-white rounded-box w-52"
+              onClick={() => setIsDrawerOpen(false)}
             >
               <HeaderMenuLinks />
             </ul>
           )}
         </div>
-        <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
-          <div className="flex relative w-10 h-10">
-            <Image alt="SE2 logo" className="cursor-pointer" fill src="/logo.svg" />
+        <Link href="/" passHref className="hidden lg:flex text-lg font-semibold items-center gap-4 ml-6 mr-8 shrink-0">
+          <div className="flex relative w-40 h-14">
+            <Image
+              alt="CarbonMint logo"
+              className="cursor-pointer object-contain w-auto justify-left"
+              width={238}
+              height={118}
+              priority
+              src="/Logo.png"
+            />
           </div>
-          <div className="flex flex-col">
-            <span className="font-bold leading-tight">Scaffold-ETH</span>
-            <span className="text-xs">Ethereum dev stack</span>
+          <div className="flex flex-col justify-center">
+            <span className="font-bold leading-tight text-green-800">CarbonMint</span>
+            <span className="text-sm text-green-600">Eco Package Marketplace</span>
           </div>
         </Link>
-        <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
+        <ul className="hidden lg:flex lg:flex-nowrap justify-center menu menu-horizontal px-1 gap-2">
           <HeaderMenuLinks />
         </ul>
       </div>
       <div className="navbar-end flex-grow mr-4">
-        <RainbowKitCustomConnectButton />
-        <FaucetButton />
+        <ConnectButton />
       </div>
     </div>
   );
