@@ -6,7 +6,7 @@ import { useAccount } from "wagmi";
 const Marketplace = () => {
   useAccount();
 
-  // Datos simulados para mostrar en el marketplace
+  // Datos para mostrar en el marketplace
   const packages = [
     { id: 1, name: "Paquete A", description: "Material biodegradable", price: "5 USDT" },
     { id: 2, name: "Paquete B", description: "Plástico reciclado", price: "10 USDT" },
