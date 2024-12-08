@@ -1,68 +1,37 @@
-// "use client";
-
-// import { useState } from "react";
-// import Image from "next/image"; // Asegúrate de importar Image correctamente
-// import { useRouter } from "next/navigation";
-
-// export default function Staging() {
-//   const [userType, setUserType] = useState<"logistic" | "vendor" | null>(null);
-//   const router = useRouter();
-
-//   return (
-//     <div className="flex min-h-screen flex-col items-center justify-center bg-[#002A15]">
-//       <div className="relative w-[300px] h-[200px] mb-8">
-//         <Image 
-//           src="/Logo.png"
-//           alt="CarbonMint"
-//           fill
-//           className="object-contain"
-//           priority
-//         />
-//       </div>
-      
-//       <div className="flex flex-col w-[200px] h-[80px] gap-4">
-//         <button
-//           onClick={() => router.push("/logistic")}
-//           className="bg-[#00FF7F] hover:bg-[#00CC66] text-white px-10 py-2 rounded-full"
-//         >
-//           You are Trucker?
-//         </button>
-//         <button
-//           onClick={() => router.push("/vendor")}
-//           className="bg-[#00FF7F] hover:bg-[#00CC66] text-white px-10 py-2 rounded-full"
-//         >
-//           You are Vendor?
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAccount } from "wagmi";
 import { useRouter } from "next/navigation";
+import { useAccount } from "wagmi";
 import Image from "next/image";
 
-type UserType = "logistic" | "vendor";
-
 export default function Staging() {
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  // Redireccionar si no está conectado
-  useEffect(() => {
-    if (!isConnected) {
-      router.push("/");
-    }
-  }, [isConnected, router]);
-
-  const handleUserSelect = async (type: UserType) => {
+  const checkVendorRegistration = async () => {
     try {
-      setIsLoading(true);
-      const route = type === "vendor" ? "/vendor" : "/logistic";
-      await router.push(route);
+      const response = await fetch(`/api/vendor/check/${address}`);
+      const { isRegistered } = await response.json();
+      return isRegistered;
+    } catch (error) {
+      console.error("Error checking registration:", error);
+      return false;
+    }
+  };
+
+  const handleSelection = async (type: "trucker" | "vendor") => {
+    if (!isConnected) return;
+    
+    setIsLoading(true);
+    try {
+      if (type === "vendor") {
+        const isRegistered = await checkVendorRegistration();
+        router.push(isRegistered ? "/vendor/dashboard" : "/vendor/register");
+      } else {
+        router.push("/logistic");
+      }
     } catch (error) {
       console.error("Navigation error:", error);
     } finally {
@@ -70,17 +39,9 @@ export default function Staging() {
     }
   };
 
-  if (!isConnected) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#002A15] text-white">
-        <p className="text-xl">Conéctate a tu wallet para continuar</p>
-      </div>
-    );
-  }
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[#002A15]">
-      <div className="relative w-[300px] h-[100px] mb-12">
+      <div className="w-[300px] h-[100px] relative mb-12">
         <Image 
           src="/Logo.png"
           alt="CarbonMint"
@@ -90,40 +51,30 @@ export default function Staging() {
           priority
         />
       </div>
-
-      <div className="flex flex-col gap-6 w-[280px]">
+      
+      <div className="flex flex-col gap-6">
         <button
-          onClick={() => handleUserSelect("logistic")}
-          disabled={isLoading}
-          className="bg-[#00FF7F] hover:bg-[#00CC66] disabled:bg-gray-400 
-                   text-white font-medium px-8 py-3 rounded-full 
-                   transition-colors duration-200 flex items-center justify-center gap-2"
+          onClick={() => handleSelection("trucker")}
+          disabled={!isConnected || isLoading}
+          className="bg-[#00FF7F] hover:bg-[#00CC66] disabled:bg-gray-500 
+                   text-white px-8 py-3 rounded-full flex items-center justify-center gap-2"
         >
-          {isLoading ? (
-            <span className="animate-pulse">Loading...</span>
-          ) : (
-            <>
-              <span>You are Trucker?</span>
-            </>
-          )}
+          {isLoading ? "Loading..." : "You are Trucker?"}
         </button>
-
+        
         <button
-          onClick={() => handleUserSelect("vendor")}
-          disabled={isLoading}
-          className="bg-[#00FF7F] hover:bg-[#00CC66] disabled:bg-gray-400 
-                   text-white font-medium px-8 py-3 rounded-full 
-                   transition-colors duration-200 flex items-center justify-center gap-2"
+          onClick={() => handleSelection("vendor")}
+          disabled={!isConnected || isLoading}
+          className="bg-[#00FF7F] hover:bg-[#00CC66] disabled:bg-gray-500 
+                   text-white px-8 py-3 rounded-full flex items-center justify-center gap-2"
         >
-          {isLoading ? (
-            <span className="animate-pulse">Loading...</span>
-          ) : (
-            <>
-              <span>You are Vendor?</span>
-            </>
-          )}
+          {isLoading ? "Loading..." : "You are Vendor?"}
         </button>
       </div>
+
+      {!isConnected && (
+        <p className="mt-4 text-white">Conecta tu wallet para continuar</p>
+      )}
     </div>
   );
 }

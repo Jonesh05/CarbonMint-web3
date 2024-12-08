@@ -22,12 +22,12 @@ const menuLinks: HeaderMenuLink[] = [
   },
   {
     label: "Provider Dashboard",
-    href: "/provider",
+    href: "/vendor",
     icon: <BeakerIcon className="h-8 w-5 font-semibold" />,
   },
   {
     label: "Marketplace",
-    href: "/staging",
+    href: "/marketplace",
     icon: <ShoppingCartIcon className="h-8 w-5 font-semibold" />,
   },
   {
