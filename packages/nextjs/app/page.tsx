@@ -12,7 +12,7 @@ const Home: NextPage = () => {
   return (
     <>
       <div className="relative w-full h-[378px] overflow-hidden">
-        <Image alt="Banner" src="/Untitled-8 (2).png" layout="fill" objectFit="cover" priority />
+        <Image alt="Banner" src="/Untitled-8 (2).png" fill style={{ objectFit: "cover" }} priority />
       </div>
 
       <div className="flex items-center flex-col flex-grow pt-10">

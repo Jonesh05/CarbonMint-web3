@@ -33,8 +33,8 @@ module.exports = {
       {
         dark: {
           primary: "10130B",
-          "primary-content": "#F9FBFF",
-          secondary: "#323f61", 
+          "primary-content": "#323f61",
+          secondary: "#323f61",
           "secondary-content": "#F9FBFF",
           accent: "#4969A6",
           "accent-content": "#F9FBFF",

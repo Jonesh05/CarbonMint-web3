@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useCallback, useRef, useState, useEffect } from "react"; // Añadido useEffect
+import React, { useCallback, useRef, useState, useEffect } from "react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bars3Icon, BeakerIcon, ShoppingCartIcon, TruckIcon } from "@heroicons/react/24/outline";
+import { link } from "fs";
 
 
 
@@ -23,36 +24,37 @@ const menuLinks: HeaderMenuLink[] = [
   {
     label: "Provider Dashboard",
     href: "/provider",
-    icon: <BeakerIcon className="h-7 w-5 font-semibold" />,
+    icon: <BeakerIcon className="h-8 w-5 font-semibold" />,
   },
   {
     label: "Marketplace",
-    href: "/marketplace",
-    icon: <ShoppingCartIcon className="h-7 w-5 font-semibold" />,
+    href: "/marketplace", 
+    icon: <ShoppingCartIcon className="h-8 w-5 font-semibold" />,
   },
   {
     label: "Logistics",
     href: "/logistics",
-    icon: <TruckIcon className="h-7 w-5 font-semibold" />,
+    icon: <TruckIcon className="h-8 w-5 font-semibold" />,
   },
-];
+];  
 
 const HeaderMenuLinks: React.FC = () => {
   const pathname = usePathname();
 
   return (
     <>
+      <div></div>
       {menuLinks.map(({ label, href, icon }) => (
         <li key={href}>
           <Link
             href={href}
             passHref
             className={`${
-              pathname === href ? "bg-green-100 text-green-800 semibold justify-items-start flex" : ""
-            } hover:bg-green-50 hover:text-green-700 focus:bg-green-100 active:text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
-          >
-            {icon}
-            <span>{label}</span>
+              pathname === href ? "bg-green-100 text-green-800 semibold justify-items-center flex p5" : ""
+          } hover:bg-green-50 hover:text-green-700 focus:bg-green-100 active:text-neutral py-1.5 px-3 text-sm rounded-full gap-2 grid grid-flow-col`}
+        >
+        {icon}
+      <span>{label}</span>
           </Link>
         </li>
       ))}
@@ -71,12 +73,12 @@ export const Header: React.FC = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchend', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchend", handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchend', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchend", handleClickOutside);
     };
   }, []);
 
