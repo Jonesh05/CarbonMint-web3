@@ -41,5 +41,9 @@
   "packageManager": "yarn@3.2.3",
   "engines": {
     "node": ">=18.18.0"
+  },
+  "dependencies": {
+    "@rainbow-me/rainbowkit": "latest",
+    "wagmi": "^2.13.4"
   }
 }

@@ -106,11 +106,11 @@ export const Header: React.FC = () => {
         <Link href="/" passHref className="hidden lg:flex text-lg font-semibold items-center gap-4 ml-6 mr-8 shrink-0">
           <div className="flex justify-items-start w-40 h-14">
             <Image
-              alt="CarbonMint logo"
               className="cursor-pointer object-contain w-auto justify-left"
               width={238}
               height={118}
               priority
+              alt="CarbonMint logo"
               src="/Logo.png"
             />
           </div>
