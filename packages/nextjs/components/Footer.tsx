@@ -9,9 +9,7 @@ import { Faucet } from "~~/components/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { useGlobalState } from "~~/services/store/store";
 
-/**
- * Site footer
- */
+
 export const Footer = () => {
   const nativeCurrencyPrice = useGlobalState(state => state.nativeCurrency.price);
   const { targetNetwork } = useTargetNetwork();

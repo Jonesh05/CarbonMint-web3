@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bars3Icon, BeakerIcon, ShoppingCartIcon, TruckIcon } from "@heroicons/react/24/outline";
-import { link } from "fs";
 
 
 
@@ -119,7 +118,7 @@ export const Header: React.FC = () => {
             <span className="text-sm text-green-600">Eco Package Marketplace</span>
           </div>
         </Link>
-        <ul className="hidden lg:flex lg:flex-nowrap justify-center menu menu-horizontal px-1 gap-2">
+        <ul className="lg:flex lg:flex-nowrap justify-center menu menu-horizontal px-1 gap-2">
           <HeaderMenuLinks />
         </ul>
       </div>
