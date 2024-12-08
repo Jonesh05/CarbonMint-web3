@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { Bars3Icon, BeakerIcon, ShoppingCartIcon, TruckIcon } from "@heroicons/react/24/outline";
 
 
+
 type HeaderMenuLink = {
   label: string;
   href: string;
