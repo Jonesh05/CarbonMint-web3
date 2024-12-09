@@ -11,14 +11,14 @@ import { Footer } from "~~/components/Footer";
 import { Header } from "~~/components/Header";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { useInitializeNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
-import { wagmiConfig } from "~~/services/web3/wagmiConfig";
+import { appChains, wagmiConfig } from "~~/services/web3/wagmiConfig";
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   useInitializeNativeCurrencyPrice();
-
+  
   return (
     <>
-      <div className={`flex flex-col min-h-screen `}>
+      <div className="flex flex-col min-h-screen">
         <Header />
         <main className="relative flex flex-col flex-1">{children}</main>
         <Footer />
@@ -27,14 +27,6 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
     </>
   );
 };
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-    },
-  },
-});
 
 export const ScaffoldEthAppWithProviders = ({ children }: { children: React.ReactNode }) => {
   const { resolvedTheme } = useTheme();
@@ -47,15 +39,15 @@ export const ScaffoldEthAppWithProviders = ({ children }: { children: React.Reac
 
   return (
     <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={new QueryClient()}>
         <ProgressBar height="3px" color="#110308" />
         <RainbowKitProvider
           avatar={BlockieAvatar}
           theme={mounted ? (isDarkMode ? darkTheme() : lightTheme()) : lightTheme()}
+          chains={appChains.chains}
         >
           <ScaffoldEthApp>{children}</ScaffoldEthApp>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
-};

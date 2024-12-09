@@ -1,9 +1,9 @@
-// app/vendor/layout.tsx
 "use client";
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
+import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
 
 interface VendorLayoutProps {
   children: React.ReactNode;

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi";
 import Image from "next/image";
+import LoadingSpinner from "~~/components/LoadingSpinner";
 
 export default function Staging() {
   const { isConnected, address } = useAccount();
